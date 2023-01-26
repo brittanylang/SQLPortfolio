@@ -1,0 +1,44 @@
+CREATE TABLE snacks (id INTEGER PRIMARY KEY, name TEXT, type TEXT, price INTEGER, inventory INTEGER);
+
+INSERT INTO snacks VALUES (1,  "Goldfish", "crackers", 4, 6);
+
+INSERT INTO snacks VALUES (2, "Sour Patch Kids", "candy", 2, 7);
+
+INSERT INTO snacks VALUES (3, "Flaming Hot Cheetos", "chips", 4, 10);
+
+INSERT INTO snacks VALUES (4, "Clementine", "fruit", 1, 12);
+
+INSERT INTO snacks VALUES (5, "Banana", 1, "fruit",  5);
+
+INSERT INTO snacks VALUES (6, "Skittles", "candy", 2, 8);
+
+INSERT INTO snacks VALUES (7, "Soft Pretzel", "hot food", 4, 7);
+
+INSERT INTO snacks VALUES (8, "Hot Dog", "hot food", 2, 20);
+
+INSERT INTO snacks VALUES (9, "Popcorn", "hot food", 2, 15);
+
+INSERT INTO snacks VALUES (10, "Kit Kat", "candy", 3, 7);
+
+INSERT INTO snacks VALUES (11, "Reese's Pieces", "candy", 4, 6);
+
+INSERT INTO snacks VALUES (12, "Oreos", "cookies", 2, 12);
+
+INSERT INTO snacks VALUES (13, "Chips Ahoy", "cookies", 3, 9);
+
+INSERT INTO snacks VALUES (14, "Wheat Thins", "crackers", 4, 4);
+
+INSERT INTO snacks VALUES (15, "Twizzlers", "candy", 4, 8);
+
+
+SELECT * FROM snacks ORDER BY price; 
+
+SELECT * FROM snacks WHERE inventory >= 5;
+
+SELECT name, inventory from snacks ORDER BY inventory DESC;
+
+SELECT SUM(inventory) FROM snacks;
+
+SELECT avg(price) FROM snacks;
+
+SELECT name FROM snacks WHERE type= "candy";
