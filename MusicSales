@@ -1,0 +1,87 @@
+SELECT * from chinook.customers
+WHERE country <> 'USA';
+
+SELECT COUNT (customerid) 
+FROM chinook.customers
+WHERE country <> 'USA';
+
+SELECT COUNT (customerid)
+FROM chinook.customers
+WHERE country = 'France'
+OR country = 'Germany'
+
+
+SELECT * from chinook.invoices
+
+SELECT customers.firstname, customers.lastname,customers.Country,
+invoices.invoiceid, invoices.total, invoices.InvoiceDate
+FROM chinook.customers
+JOIN chinook.invoices
+ON customers.CustomerId = invoices.CustomerId
+
+
+SELECT customerID 
+FROM customers
+WHERE lastname = 'Gonçalves'
+
+
+SELECT COUNT (InvoiceId)
+FROM invoices
+WHERE customerID = 1
+
+SELECT SUM (total)
+FROM invoices
+WHERE customerID=1
+
+SELECT SUM (total)
+FROM invoices
+WHERE billingcountry = 'Brazil'
+
+
+SELECT *
+FROM genres
+
+SELECT name, albumid, unitprice
+FROM tracks
+WHERE genreID = 4
+
+SELECT tracks.name, tracks.albumid, 
+tracks.unitprice, tracks.UnitPrice,
+albums.AlbumId, albums.Title, albums.ArtistId, 
+artists.name
+FROM tracks
+INNER JOIN albums ON tracks.AlbumId = albums.AlbumId
+LEFT JOIN artists on albums.artistID = artists.ArtistId
+WHERE genreID = 4
+
+SELECT t.name AS track_name, t.albumid, t.unitprice,
+a.Title AS album_title, ar.name AS artist_name
+FROM tracks t
+INNER JOIN albums a ON t.AlbumId = a.AlbumId
+LEFT JOIN artists ar ON a.artistID = ar.ArtistId
+WHERE t.genreID = 4
+
+SELECT employeeID, FirstName, LastName, Title, ReportsTo
+FROM employees
+
+SELECT * 
+FROM employees
+WHERE title = 'Sales Support Agent'
+
+
+SELECT i.total AS invoice_total,
+       c.firstname AS customer_first_name, c.lastname AS customer_last_name, c.country,
+       e.firstname AS support_rep_first_name, e.lastname AS support_rep_last_name
+FROM invoices i
+INNER JOIN customers c ON i.customerID = c.customerID
+LEFT JOIN employees e ON c.supportrepID = e.employeeID
+
+
+
+SELECT e.employeeID, e.firstname AS support_rep_first_name, e.lastname AS support_rep_last_name,
+       SUM(i.total) AS total_sales
+FROM invoices i
+INNER JOIN customers c ON i.customerID = c.customerID
+LEFT JOIN employees e ON c.supportrepID = e.employeeID
+GROUP BY e.employeeID
+ORDER BY total_sales DESC
