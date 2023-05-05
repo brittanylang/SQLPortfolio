@@ -1,0 +1,95 @@
+Case Study Questions
+
+1. What is the total amount each customer spent at the restaurant?
+
+
+My query:
+SELECT sales.customer_ID, SUM(menu.price) 
+FROM dannys_diner.menu
+JOIN dannys_diner.sales
+ON menu.product_id = sales.product_id
+GROUP BY sales.customer_ID;
+
+Results:
+customer_id	sum
+B	74
+C	36
+A	76
+
+
+2. How many days has each customer visited the restaurant?
+
+My query:
+SELECT COUNT(Order_date), customer_ID
+FROM dannys_diner.sales
+GROUP BY customer_ID;
+count	customer_id
+
+Results:
+6	B
+3	C
+6	A
+
+
+3. What was the first item from the menu purchased by each customer?
+
+My query:
+SELECT dannys_diner.sales.customer_ID, dannys_diner.sales.order_date, dannys_diner.sales.product_ID, dannys_diner.menu.product_name
+FROM dannys_diner.sales
+JOIN dannys_diner.menu ON dannys_diner.sales.product_ID = dannys_diner.menu.product_ID
+ORDER BY dannys_diner.sales.order_date;
+
+Results:
+customer_id	order_date	product_id	product_name
+B	2021-01-01T00:00:00.000Z	2	curry
+C	2021-01-01T00:00:00.000Z	3	ramen
+A	2021-01-01T00:00:00.000Z	2	curry
+
+
+4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+
+SELECT m.product_name, COUNT(s.product_ID) AS purchase_count
+FROM dannys_diner.sales s
+JOIN dannys_diner.menu m ON m.product_ID = s.product_ID
+GROUP BY m.product_name
+ORDER BY purchase_count DESC
+LIMIT 1;
+
+product_name	purchase_count
+ramen         	8
+
+5. Which item was the most popular for each customer?
+
+SELECT s.customer_id, m.product_name, COUNT(*) AS order_count
+FROM dannys_diner.menu AS m
+JOIN dannys_diner.sales AS s
+  ON m.product_id = s.product_id
+GROUP BY s.customer_id, m.product_name
+HAVING COUNT(*) = (
+  SELECT MAX(order_count)
+  FROM (
+    SELECT customer_id, product_id, COUNT(*) AS order_count
+    FROM dannys_diner.sales
+    GROUP BY customer_id, product_id
+  ) AS counts
+  WHERE counts.customer_id = s.customer_id
+);
+
+
+customer_id	product_name	order_count
+B	sushi	2
+B	curry	2
+C	ramen	3
+A	ramen	3
+
+
+
+
+6. Which item was purchased first by the customer after they became a member?
+
+
+7. Which item was purchased just before the customer became a member?
+8. What is the total items and amount spent for each member before they became a member?
+9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+
